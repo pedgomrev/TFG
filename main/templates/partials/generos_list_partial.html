@@ -1,0 +1,29 @@
+<div class="row d-flex justify-content-center">
+    {% if contexto.generos.has_previous %}
+    <div class="col-1 d-flex align-items-center">
+        <a href="?pageComunidad={{contexto.comunidades.number}}&pageArtista={{contexto.artistas.number}}&pageAlbum={{contexto.albums.number}}&pageUsuario={{contexto.usuarios.number}}" class="page-link" data-page="{{ contexto.generos.previous_page_number }}" data-partial="genero">
+            <i class="fa-solid fa-chevron-left fa-2xl" style="color: #333;"></i>
+        </a>
+    </div>
+    {% endif %}
+    {% for genero in contexto.generos %}
+    <div class="col-2">
+        <div class="card">
+            <a href="{% url 'detalles' 'genero' genero.id %}">
+                <div class="card-body card-genero d-flex align-items-center justify-content-center" style="background-color: {{genero.color}}">
+                    <h5 class="card-title" style="color: #ffffffb2; font-size: 1.3em; font-weight: bold">
+                        {{genero.nombre }}
+                    </h5>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+    {% if contexto.generos.has_next %}
+    <div class="col-1 d-flex align-items-center justify-content-end">
+        <a href="?pageComunidad={{contexto.comunidades.number}}&pageArtista={{contexto.artistas.number}}&pageAlbum={{contexto.albums.number}}&pageUsuario={{contexto.usuarios.number}}" class="page-link" data-page="{{ contexto.generos.next_page_number }}" data-partial="genero">
+            <i class="fa-solid fa-chevron-right fa-2xl" style="color: #333;"></i>
+        </a>
+    </div>
+    {% endif %}
+</div>

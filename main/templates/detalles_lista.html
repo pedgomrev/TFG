@@ -1,0 +1,158 @@
+{% extends 'crear_lista.html' %} {% load static %} {% block title %}ver {{ contexto.lista.nombre }}{%endblock%}
+
+{% block cabecera_especifica %}
+{%endblock%}
+
+{% block content %}
+<div class="col-12 content_cabecera p-3">
+    <div class="row">
+        {% if contexto.lista.usuario.id == contexto.usuario_sesion.id %}
+        <div class="col-3 mt-5">
+            {% if contexto.lista.foto %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#EditarPerfil"><img
+                    class="img-fluid imagen_perfil" src="{% static contexto.lista.foto %}"
+                    alt="imagen de perfil"></button>
+            {% else %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#EditarPerfil"><img
+                    class="img-fluid imagen_perfil" src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                    alt="imagen de perfil"></button>
+            {% endif %}
+
+        </div>
+        {% else %}
+        <div class="col-3 mt-5">
+            {% if contexto.lista.foto %}
+            <img class="img-fluid imagen_perfil" src="{% static contexto.lista.foto %}" alt="imagen de perfil">
+            {% else %}
+            <img class="img-fluid imagen_perfil" src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                alt="imagen de perfil">
+            {% endif %}
+        </div>
+
+        {% endif %}
+
+        <div class="col-9 d-flex align-items-center">
+            <div class="row d-block" style="font-family: 'Glacial';">
+                <div class="col-12">
+                    {% if contexto.lista.visibilidad == True %}
+                    <h6>Lista pública</h6>
+                    {% else %}
+                    <h6>Lista privada</h6>
+                    {% endif %}
+                </div>
+                <div class="col-12">
+                    {% if contexto.lista.nombre %}
+                    <h1 style="font-weight: bold;">{{contexto.lista.nombre}}</h1>
+
+                    {% else %}
+                    <h1 style="font-weight: bold;">Lista nº {{contexto.numero_listas}}</h1>
+                    {% endif %}
+                </div>
+                <div class="col-12 mb-4">
+                    <span> Duracion: {{contexto.duracionTotal}} • {{contexto.canciones|length}} canciones </span>
+                </div>
+                <div class="col-12 d-flex">
+                    <img class="imagen_perfil_usuario" src="{% static contexto.lista.usuario.foto_perfil %}" alt="">
+                    <h6 class="d-flex align-items-center" style="margin-left: 1em ;"><a
+                            href="{% url 'perfil' contexto.lista.usuario.id %}">{{contexto.lista.usuario}}</a>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Spotify</th>
+            <th scope="col">Youtube</th>
+            <th scope="col">Oyentes</th>
+            <th scope="col">Duracion</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cancion in contexto.canciones %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{cancion.nombre}}</td>
+            {% if cancion.link_spotify %}
+            <td><a href="{{cancion.link_spotify}}" target="_blank"><i class="fa-brands fa-spotify"
+                        style="color: green;"></i></td>
+            {% else %}
+            <td>Sin link</td>
+            {% endif %}
+            {% if cancion.link_youtube %}
+            <td><a href="{{cancion.link_youtube}}" target="_blank"><i class="fa-brands fa-youtube"
+                        style="color: red;"></i></a></td>
+            {% else %}
+            <td>Sin link</td>
+            {% endif %}
+            <td>{{cancion.oyentes}}</td>
+            <td id="duracion-cancion-{{ forloop.counter }}">{{cancion.duracion}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="EditarPerfil" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Edita los campos deseados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'index_lista' contexto.lista.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <input type="file" class="form-control d-none" id="input_imagen" name="input_imagen">
+                            {% if contexto.lista.foto %}
+                            <img src="{% static contexto.lista.foto %}" alt="Actual Profile Image" class="img-fluid"
+                                id="imagen_modal" style="cursor: pointer;">
+                            {% else %}
+                            <img src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                                alt="Actual Profile Image" class="img-fluid" id="imagen_modal" style="cursor: pointer;">
+                            {% endif %}
+                        </div>
+                        <div class="col mb-3">
+                            <div class="form-check form-switch">
+                                {% if contexto.lista.visibilidad == True %}
+                                <input id="checkboxVisibilidad" class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" name="visibilidad" checked>
+                                <label id="labelVisibilidad" class="form-check-label" for="flexSwitchCheckChecked">Lista
+                                    pública</label>
+                                {% else %}
+                                <input id="checkboxVisibilidad" class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckDefault" name="visibilidad">
+                                <label id="labelVisibilidad" class="form-check-label" for="flexSwitchCheckChecked">Lista
+                                    privada</label>
+                                {% endif %}
+
+                            </div>
+                            <input type="text" class="form-control" id="apodo" name="nombre"
+                                value="{{ contexto.lista.nombre }}">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary">Guardar cambios</button>
+                </form>
+                <form action="{% url 'eliminar_lista' contexto.lista.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar lista</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block extra_js %}
+<script src="{% static 'js/detalles_album.js' %}"></script>
+{% endblock %}

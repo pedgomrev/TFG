@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Varino';
+    src: url('../fonts/VarinoNormal-Regular.woff') format('truetype');
+}
+@font-face {
+    font-family: 'Glacial';
+    src: url('../fonts/GlacialIndifference-Regular.woff') format('truetype');
+}
+
+.col-3 {
+    width: 25%;
+    float: left;
+    padding-bottom: 1.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 1em;
+}
+#volver {
+    display: flex;
+}

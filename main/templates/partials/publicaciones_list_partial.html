@@ -1,0 +1,101 @@
+{% load static %}
+
+{% if contexto.publicaciones.has_previous %}
+<div class="d-flex justify-content-center  col-1">
+
+  <div class="row">
+    <div class="col-1 d-flex align-items-center">
+      <a href="?q={{contexto.query}}&pageComunidad={{contexto.comunidades.number}}&pageGenero={{ contexto.generos.number}}&pageArtista={{contexto.artistas.number}}&pageAlbum={{contexto.albums.number}}&pageUsuario={{ contexto.usuarios.number }}"
+        class="page-link" data-page="{{ contexto.publicaciones.previous_page_number }}" data-partial="publicacion"><i
+          class="fa-solid fa-chevron-left fa-2xl" style="color: #333;"></i></a>
+    </div>
+  </div>
+</div>
+
+{% endif %}
+
+<div class="col-10">
+  {% for publicacion in contexto.publicaciones %}
+  <div class="publicacion row">
+    <div class="cabecera-publicacion col-12">
+      <div class="usuario row">
+        <div class="col-2" style="width: fit-content;">
+          {% if publicacion.usuario.foto_perfil %}
+          <img id="imagen_publicacion" src="{% static publicacion.usuario.foto_perfil %}"
+            alt="Foto de perfil de {{ publicacion.usuario }}">
+          {% else %}
+          <img id="imagen_publicacion" src="{% static 'fotos_perfil/sin_imagen.png' %}"
+            alt="Foto de perfil de {{ publicacion.usuario }}">
+          {% endif %}
+        </div>
+        <div class="col">
+          <a id="nombre_publicacion" href="{% url 'perfil' publicacion.usuario.id %}">{{ publicacion.usuario }}</a>
+          <div class="fecha_publicacion">
+            <p>{{ publicacion.fecha }}</p>
+          </div>
+        </div>
+        {% if publicacion.usuario.id == contexto.id_usuario or publicacion.usuario.id == contexto.usuario_sesion.id %}
+          <div class="col d-flex justify-content-end">
+            <form action="{% url 'eliminar_publicacion' publicacion.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="btn"><i class="fa-solid fa-xmark" style="color:#333"></i></button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="contenido_publicacion col-12">
+      <p>{{ publicacion.texto }}</p>
+    </div>
+    {% if publicacion.cancion %}
+    {% if publicacion.cancion.album_set.all %}
+    <div class="cotenido_cancion col-12">
+      <div class="row">
+        <div class="col-1" style="width:  min-content !important;">
+          <img id="imagen_cancion" src="{% static 'albums/' %}{{publicacion.foto}}" alt="Imagen de la canción">
+        </div>
+        <div class="col">
+          <a href="{% url 'detalles' 'album' publicacion.cancion.album_set.first.id   %}"
+            style="text-decoration: none;">
+            <p class="titulo_cancion">{{ publicacion.cancion.nombre }}</p>
+          </a>
+          <a href="{{ publicacion.cancion.link_youtube}}" style="text-decoration: none;">
+            <p class="youtube"><i class="fa-brands fa-youtube" style="color: red;"></i> Escucha en youtube</p>
+          </a>
+          <a href="{{ publicacion.cancion.link_spotify}}" style="text-decoration: none;">
+            <p class="spotify"><i class="fa-brands fa-spotify" style="color: green;"></i> Escucha en spotify</p>
+          </a>
+        </div>
+        <div class="col d-flex justify-content-end">
+          <div class="acciones_publicacion align-content-end">
+            {% if publicacion.ya_dio_like %}
+            <a class="btn_like" href="{% url 'like' publicacion.id %}" style="margin-right: 1em;"><i
+                class="fa-solid fa-heart fa-2xl" style="color: red;"></i></a>
+            {% else %}
+            <a class="btn_like" href="{% url 'like' publicacion.id %}" style="margin-right: 1em;"><i
+                class="fa-solid fa-heart fa-2xl" style="color: #333;"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="pie-publicacion col">
+      <div class="comentarios-publicacion">
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="d-flex justify-content-center  col-1">
+  {% if contexto.publicaciones.has_next %}
+  <div class="row">
+      <div class="col-12 d-flex align-items-center justify-content-end">
+        <a href="?q={{contexto.query}}&pageComunidad={{contexto.comunidades.number}}&pageGenero={{ contexto.generos.number}}&pageArtista={{contexto.artistas.number}}&pageAlbum={{contexto.albums.number}}&pageUsuario={{ contexto.usuarios.number }}"
+          class="page-link" data-page="{{ contexto.publicaciones.next_page_number }}" data-partial="publicacion"><i
+            class="fa-solid fa-chevron-right fa-2xl" style="color: #333;"></i></a>
+      </div>
+    </div>
+  {% endif %}
+</div>

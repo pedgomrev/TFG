@@ -1,0 +1,66 @@
+{% extends 'explora.html' %} {% load static %} {% block title %}ver {{ contexto.album.nombre }}{%endblock%}
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/explora.css' %}" />
+<link rel="stylesheet" href="{% static 'css/album.css' %}" />
+{%endblock %}
+
+{% block cabecera_especifica %}
+{%endblock%}
+
+{% block contenido_principal %}
+<div id="cabecera-detalles" class="row d-flex justify-content-start align-items-center">
+    <div class="col-2 d-flex justify-content-start align-content-center imagen_album"><img
+            src="{% static 'albums/' %}{{ contexto.album.foto }}" alt="imagen_album"></div>
+    <div class="col-8 descripcion">
+        <div class="row  d-block">
+            <h1>{{contexto.album.nombre}}</h1>
+            <span>
+                {% for artista in contexto.artistas %}
+                <a href="{% url 'perfil_artista' artista.id %}" style="text-decoration: none;color: #333;">{{artista.nombre}}</a> •
+                {% endfor %}
+                {{contexto.duracionTotal}} • {{contexto.canciones|length}} canciones
+            </span>
+
+        </div>
+
+    </div>
+</div>
+<hr>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Spotify</th>
+        <th scope="col">Youtube</th>
+        <th scope="col">Oyentes</th>
+        <th scope="col">Duracion</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for cancion in contexto.canciones %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{cancion.nombre}}</td>
+                {% if cancion.link_spotify %}
+                    <td><a href="{{cancion.link_spotify}}" target="_blank"><i class="fa-brands fa-spotify" style="color: green;"></i></td>
+                {% else %}
+                    <td>Sin link</td>
+                {% endif %}
+                {% if cancion.link_youtube %}
+                    <td><a href="{{cancion.link_youtube}}" target="_blank"><i class="fa-brands fa-youtube" style="color: red;"></i></a></td>
+                {% else %}
+                    <td>Sin link</td>
+                {% endif %}
+                <td>{{cancion.oyentes}}</td>
+                <td id="duracion-cancion-{{ forloop.counter }}">{{cancion.duracion}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock%}
+
+{% block extra_js %}
+<script src="{% static 'js/detalles_album.js' %}"></script>
+{% endblock %}

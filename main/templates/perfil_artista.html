@@ -1,0 +1,68 @@
+{% extends 'index.html' %} {% load static %}{% load humanize %} {% block title %}Perfil{% endblock %}
+
+{% block css_especifico %}
+
+<link rel="stylesheet" href="{% static 'css/perfil_artista.css' %}" />
+
+{% endblock css_especifico %}
+{% block cabecera_especifica %}
+<div></div>
+{%endblock cabecera_especifica %}
+{% block contenido_principal %}
+<div id="cabecera" class="row" style="background-image: url('{% static 'albums/' %}{{ contexto.album_fondo }}') ; width: 100%;">
+    <div class="col nombre_artista">
+        <h1>{{contexto.nombre}}</h1>
+    </div>
+    <div class="col detalles">
+        <div class="row" style="width:100%">
+            <div class="col-7">
+                <span>
+                    <h5>
+                        {{contexto.artista.albums.count}} Álbumes • {{contexto.artista.oyentes_mensuales| intcomma}} oyentes
+                        mensuales • {{contexto.artista.años_activo}} • presente en {{contexto.artista.generos.count}} géneros
+                    </h5>
+                </span>
+            </div>
+            <div class="col-5 d-flex justify-content-center">
+                {% if contexto.ya_sigue %}
+                <a href="{% url 'seguir_artista' contexto.artista.id %}" style="text-decoration: none; color: whitesmoke;"><button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark" style="color:whitesmoke"></i> Dejar de
+                    seguir</button></a>
+                {% else %}
+                <a href="{% url 'seguir_artista' contexto.artista.id %}" style="text-decoration: none;"><button type="submit" class="btn btn-secondary"><i class="fa-solid fa-user-plus" style="color:whitesmoke"></i></button></a>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-12 mb-2 cabecera">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end">
+                <span style="color: #333">Albums del artista</span>
+            </div>
+        </div>
+    </div>
+    <div id="album-list"class="col-12">
+        {% include 'partials/albums_list_partial.html' %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 mb-2 cabecera">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end">
+                <span style="color: #333">Tags del artista</span>
+            </div>
+        </div>
+    </div>
+    <div id="genero-list"class="col-12">
+        {% include 'partials/generos_list_partial.html' %}
+    </div>
+</div>
+{% endblock contenido_principal %}
+
+{% block extra_js %}
+
+{% endblock extra_js %}

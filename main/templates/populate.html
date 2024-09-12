@@ -1,0 +1,12 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Populate{% endblock %}
+{% block contenido_principal %}
+<div class="row">
+    <div class="col-12">
+        <h1>POPULATE TERMINADO CON ÉXITO ACTUALMENTE HAY:</h1>
+        <p>{{ contexto.canciones }} canciones</p>
+        <p>{{ contexto.albumes }} albums</p>
+        <p>{{ contexto.artistas }} artistas</p>
+        <p>{{ contexto.generos }} generos</p>
+    </div>
+</div>
+{% endblock contenido_principal %}

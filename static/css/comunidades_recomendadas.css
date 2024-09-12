@@ -1,0 +1,9 @@
+a{
+    text-decoration: none;
+    color: black;
+}
+#imagen_comunidad_recomendada{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

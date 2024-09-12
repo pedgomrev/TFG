@@ -1,0 +1,64 @@
+.imagen_perfil{
+    width: fit-content;
+    height: fit-content;
+    border: 2.5px solid #333;
+    border-radius: 50%;
+    display: block;
+}
+.contenedor_info{
+    margin-top:auto;
+}
+.modal-header{
+    background-color: #333;
+    color: #f8f9fa;
+    border:0px !important;
+}
+.modal-body{
+    background-color: #333333d5;
+    color: #f8f9fa;
+}
+.modal-footer{
+    background-color: #333333d5;
+    color: #f8f9fa;
+    border: 0px !important;
+}
+#apodo{
+    background-color: #333333d5;
+    color:#f8f9fa;
+    border: 1px solid #333;
+}
+#input_imagen {
+    display: none;
+}
+#imagen_modal{
+    width: 100%;
+    border-radius: 50%;
+}
+.btn{
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn:active {
+    outline: none;
+    box-shadow: none;
+}
+.imagen_modal{
+    width: 100%;
+    height: auto;
+    border: 2.5px solid #333;
+    border-radius: 50%;
+    display: block;
+    
+}
+.nombre_modal{
+    color: whitesmoke;
+    font-size: 1em;
+    text-decoration: none;
+    margin-right: auto;
+}

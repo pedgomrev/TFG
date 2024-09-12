@@ -1,0 +1,33 @@
+.imagen_perfil{
+    width: fit-content;
+    height: fit-content;
+    border: 2.5px solid #333;
+    border-radius: 50%;
+    display: block;
+}
+h1{
+    font-size: 5rem;
+}
+a{
+    text-decoration: none;
+    color: #333;
+}
+.imagen_perfil_usuario{
+    width:10%;
+    height: auto;
+    border-radius: 50%;
+}
+.content_cabecera{
+    border-bottom: #b8b8b8a4 2px solid;
+}
+.btn_cancion_add{
+    font-family: 'Glacial';
+    background-color: none;
+    color: whitesmoke;
+    border: whitesmoke 2px solid;
+    border-radius: 12%;
+    padding: 10px;;
+}
+#contenedor_lista{
+    font-family: 'Glacial';
+}

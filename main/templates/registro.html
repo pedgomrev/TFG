@@ -1,0 +1,91 @@
+{% extends 'login.html' %} {% load static %} {% block title %}Registro{% endblock%}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/registro.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="row p-2 align-items-center">
+  <div class="col-12 d-flex justify-content-start">
+    <a href="inicioSesion" style="text-decoration: none">
+      <h1 id="titulo">HARMONÍA<sub>digital</sub></h1>
+    </a>
+  </div>
+
+  {% if error %}
+  <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+    {% for err in error %}
+    <p>{{ err }}</p>
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+  <div class="col-12">
+    <div class="row mt-2">
+      <div class="col-12 d-flex justify-content-center p-2">
+        <h1>REGÍSTRATE</h1>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="row d-flex justify-content-center mt-3">
+      <div class="col-12 d-flex justify-content-center">
+        <span>Rellene todos los campos</span>
+      </div>
+      <div id="container_login" class="col-lg-4 col-8 d-inline-block">
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos"
+                required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Email" required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-3 col col-sm-12">
+              <label for="username" class="form-label">Usuario</label>
+              <input type="text" class="form-control" id="username" name="username" placeholder="Usuario" required />
+            </div>
+            <div class="mb-3 col col-sm-12">
+              <label for="fecha_nacimiento" class="form-label">Fecha nacimiento</label>
+              <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento"
+                placeholder="dd/mm/aaaa" required />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
+                required />
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" id="password-confirm" name="password-confirm"
+                placeholder="Repite la contraseña" required />
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn" onclick="validateForm()">
+              Confirmar registro
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'js/registro.js' %}"></script>
+{% endblock %}

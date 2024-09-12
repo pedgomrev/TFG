@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Varino';
+    src: url('../fonts/VarinoNormal-Regular.woff') format('truetype');
+}
+@font-face {
+    font-family: 'Glacial';
+    src: url('../fonts/GlacialIndifference-Regular.woff') format('truetype');
+}
+img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+}
+.descripcion{
+    display: flex;
+    align-items: end;
+    height:100%;
+}
+.descripcion>div.row{
+    font-family: 'Glacial';
+    padding-top: auto;
+}
+.descripcion>div.row>h1{
+    font-size: 4em;
+    font-weight: bolder;
+    color: #333;
+    margin-bottom: 0px;
+}
+.descripcion>div.row>span{
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 0px;
+}
+li.list-group-item>div.col-1{
+    padding-right : 0.5em;
+}
+.list-group-item{
+    border : none;
+    border-bottom: #b8b8b8a4 2px solid !important;
+}

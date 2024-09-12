@@ -1,0 +1,177 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Crear lista{% endblock%}
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/crear_lista.css' %}" />
+{% endblock css_especifico %}
+{% block cabecera %}{% endblock cabecera %}
+{% block content %}
+<div class="col-12 content_cabecera p-3">
+    <div class="row">
+        {% if contexto.lista.usuario.id == contexto.usuario_sesion.id %}
+        <div class="col-3 mt-5">
+            {% if contexto.lista.foto %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#EditarPerfil"><img
+                    class="img-fluid imagen_perfil" src="{% static contexto.lista.foto %}"
+                    alt="imagen de perfil"></button>
+            {% else %}
+            <button class="btn" data-bs-toggle="modal" data-bs-target="#EditarPerfil"><img
+                    class="img-fluid imagen_perfil" src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                    alt="imagen de perfil"></button>
+            {% endif %}
+
+        </div>
+        {% else %}
+        <div class="col-3 mt-5">
+            {% if contexto.lista.foto %}
+            <img class="img-fluid imagen_perfil" src="{% static contexto.lista.foto %}" alt="imagen de perfil">
+            {% else %}
+            <img class="img-fluid imagen_perfil" src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                alt="imagen de perfil">
+            {% endif %}
+        </div>
+
+        {% endif %}
+
+        <div class="col-9 d-flex align-items-center">
+            <div class="row d-block" style="font-family: 'Glacial';">
+                <div class="col-12">
+                    {% if contexto.lista.visibilidad == True %}
+                    <h6>Lista pública</h6>
+                    {% else %}
+                    <h6>Lista privada</h6>
+                    {% endif %}
+                </div>
+                <div class="col-12">
+                    {% if contexto.lista.nombre %}
+                    <h1 style="font-weight: bold;">{{contexto.lista.nombre}}</h1>
+
+                    {% else %}
+                    <h1 style="font-weight: bold;">Lista nº {{contexto.numero_listas}}</h1>
+                    {% endif %}
+                </div>
+                <div class="col-12 mb-4">
+                    <span> Duracion: {{contexto.duracionTotal}} • {{contexto.canciones|length}} canciones </span>
+                </div>
+                <div class="col-12 d-flex">
+                    <img class="imagen_perfil_usuario" src="{% static contexto.usuario_sesion.foto_perfil %}" alt="">
+                    <h6 class="d-flex align-items-center" style="margin-left: 1em ;"><a
+                            href="{% url 'perfil' contexto.usuario_sesion.id %}">{{contexto.usuario_sesion.apodo}}</a>
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12 mt-3">
+    <div id="contenedor_lista" class="row m-3 p-2">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Spotify</th>
+                    <th scope="col">Youtube</th>
+                    <th scope="col">Oyentes</th>
+                    <th scope="col">Duracion</th>
+                </tr>
+            </thead>
+            <tbody id="lista_reproduccion">
+                {% if contexto.lista.canciones.all|length != 0 %}
+                {% for cancion in contexto.lista.canciones.all %}
+                <tr>
+                    <th scope="row"><a
+                        href="{% url 'eliminar_cancion' contexto.lista.id cancion.id %}"><button type="button" class="btn btn_elim_cancion"
+                            data-cancion-id="{{cancion.id}}">X</button></a></th>
+                    <td>{{cancion.nombre}}</td>
+                    {% if cancion.link_spotify %}
+                    <td><a href="{{cancion.link_spotify}}" target="_blank"><i class="fa-brands fa-spotify"
+                                style="color: green;"></i></td>
+                    {% else %}
+                    <td>Sin link</td>
+                    {% endif %}
+                    {% if cancion.link_youtube %}
+                    <td><a href="{{cancion.link_youtube}}" target="_blank"><i class="fa-brands fa-youtube"
+                                style="color: red;"></i></a></td>
+                    {% else %}
+                    <td>Sin link</td>
+                    {% endif %}
+                    <td>{{cancion.oyentes}}</td>
+                    <td id="duracion-cancion-{{ forloop.counter }}">{{cancion.duracion}}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="row p-2">
+        <h3>Busca tus canciones favoritas</h3>
+        <div class="col-5">
+            <form id="search_musica_lista" action="" method="get">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="encuentra tu canción"
+                        name="canciones">
+                    <label for="floatingInput" style="color:whitesmoke">Busca tu canción</label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container-canciones">
+        <div class="col-12">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditarPerfil" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Edita los campos deseados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'index_lista' contexto.lista.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <input type="file" class="form-control d-none" id="input_imagen" name="input_imagen">
+                            {% if contexto.lista.foto %}
+                            <img src="{% static contexto.lista.foto %}" alt="Actual Profile Image" class="img-fluid"
+                                id="imagen_modal" style="cursor: pointer;">
+                            {% else %}
+                            <img src="{% static 'lista_reproducciones/sin_imagen_generico.jpg' %}"
+                                alt="Actual Profile Image" class="img-fluid" id="imagen_modal" style="cursor: pointer;">
+                            {% endif %}
+                        </div>
+                        <div class="col mb-3">
+                            <div class="form-check form-switch">
+                                <input id="checkboxVisibilidad" class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" name="visibilidad" checked>
+                                <label id="labelVisibilidad" class="form-check-label" for="flexSwitchCheckChecked">Lista
+                                    pública</label>
+                            </div>
+                            <input type="text" class="form-control" id="apodo" name="nombre"
+                                value="{{ contexto.lista.nombre }}">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary">Guardar cambios</button>
+                </form>
+                <form action="{% url 'eliminar_lista' contexto.lista.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Eliminar lista</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/crear_lista.js' %}"></script>
+
+{% endblock extra_js %}

@@ -1,0 +1,43 @@
+{% load static %}
+<div class="row d-flex justify-content-center">
+    {% if contexto.listas_reproduccion.has_previous %}
+    <div class="col-1 d-flex align-items-center">
+        <a
+            href="?pageComunidad={{contexto.comunidades.number}}&pagePost={{contexto.posts.number}}"class="page-link" data-page="{{ contexto.listas_reproduccion.previous_page_number }}" data-partial="lista"><i
+                class="fa-solid fa-chevron-left fa-2xl" style="color: #333;"></i></a>
+    </div>
+    {% endif %}
+    {% for lista_reproduccion in contexto.listas_reproduccion %}
+    {% if lista_reproduccion.visibilidad == True or contexto.id_usuario == contexto.usuario_sesion.id %}
+    <div class="col-2">
+        <div class="card">
+            {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+            <a href="{% url 'detalles_lista' lista_reproduccion.id %}" style="text-decoration: none;">
+                <img src="{% static lista_reproduccion.foto %}" class="card-img-top"
+                    alt="{{ lista_reproduccion.nombre }}" />
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ lista_reproduccion.nombre }}</h5>
+                </div>
+            </a>
+            {% else %}
+            <a href="{% url 'detalles_lista' lista_reproduccion.id %}" style="text-decoration: none;">
+                <img src="{% static lista_reproduccion.foto %}" class="card-img-top"
+                    alt="{{ lista_reproduccion.nombre }}" />
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ lista_reproduccion.nombre }}</h5>
+                </div>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    {% endif %}
+    {% endfor %}
+    {% if contexto.listas_reproduccion.has_next %}
+    <div class="col-1 d-flex align-items-center justify-content-end">
+        <a
+            href="?pageComunidad={{contexto.comunidades.number}}&pagePost={{contexto.posts.number}}"class="page-link" data-page="{{ contexto.listas_reproduccion.next_page_number }}" data-partial="lista"><i
+                class="fa-solid fa-chevron-right fa-2xl" style="color: #333;"></i></a>
+    </div>
+    {% endif %}
+</div>

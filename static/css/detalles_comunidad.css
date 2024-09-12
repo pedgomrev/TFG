@@ -1,0 +1,23 @@
+p{
+    width: fit-content;
+    margin-right: 1rem;
+}
+
+#consulta_generos{
+    font-size: 15px;
+}
+#follow{
+    border-radius: 20px;
+}
+#container-detalles{
+    padding:1rem;
+    padding-left: 0px !important;
+    border-bottom: #b8b8b8a4 2px solid;
+    margin: 0.5rem;
+}
+.editar{
+    border-radius: 20px;
+}
+.modal-body-detalles{
+    height: 124px !important;
+}

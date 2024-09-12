@@ -1,0 +1,126 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Comunidades{% endblock %}
+
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/comunidades.css' %}" />
+{% endblock css_especifico %}
+
+
+{% block menu_auxiliar %}
+<div class="row">
+    <form id="buscador" class="input-group input-group-lg" method="get" action="#">
+        {% csrf_token %}
+        <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input id="buscador_comunidades"type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" placeholder="Realice una búsqueda" name="q" />
+    </form>
+    <div id="errorDiv" style="display: block;">
+        {% if contexto.error %}
+        <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+            {% for err in contexto.error %}
+            <p>{{ err }}</p>
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            {% else %}
+            {% endif %}
+        </div>
+        <div class="col-12 d-flex justify-content-center align-items-center p-2">
+            <button id="btn_comunidades" class="btn btn-primary">
+                Crea una comunidad
+            </button>
+        </div>
+        <div id="formularioComunidades" class="col-12">
+            <form method="POST" enctype="multipart/form-data" id="crearComunidades" action="">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-3 mb-3">
+                        <input type="file" class="form-control" id="input_imagen" name="input_imagen" required>
+                        <img src="{% static 'comunidades/sin_imagen_generico.jpg' %}" alt="Actual Profile Image"
+                            class="img-fluid" id="imagen_modal" style="cursor: pointer;">
+                    </div>
+
+                    <div class="col d-block">
+                        <div class="col mb-3 d-flex align-items-center">
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ponle nombre"
+                                required>
+                        </div>
+                        <div class="col mb-3 d-flex align-items-center justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#modalGeneros" style="border-radius: 25px;">
+                                Selecciona las tags
+                            </button>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Consulta las tags
+                                </button>
+                                <ul class="dropdown-menu lista_generos" name="generos">
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <button id="completarComunidad" type="submit" class="btn btn-primary">Publica tu comunidad
+                            !</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="comunidades_container"class="row d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center" style="color: #868686 ; font-family: 'Glacial';">
+            <h2>COMUNIDADES</h2>
+        </div>
+        {% for comunidad in contexto.comunidades %}
+        <div class="col-5 m-2 p-1 comunidad">
+            <div class="card">
+                <a href="{% url 'detalles_comunidad' comunidad.id %}">
+                    <img src="{% static comunidad.foto %}" class="card-img-top" alt="..." />
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{ comunidad.nombre }}</h5>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="modal fade" id="modalGeneros" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="ModalLabel">Selecciona las tags que desee</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="search" placeholder="Búsque una tag">
+                    <div class="row" id="generos-container">
+                        {% for genero in contexto.generos %}
+                        <div class="col-6 genero">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input genero-checkbox" type="checkbox" role="switch"
+                                    id="{{genero.id}}" data-genero="{{genero.nombre}}">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">{{genero.nombre}}</label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Guardar tags</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {%endblock menu_auxiliar %}
+
+    {% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/comunidades.js' %}"></script>
+    {% block js_especifico %}{% endblock %}
+    {% endblock extra_js %}

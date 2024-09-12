@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>Harmonía Digital - {%block title%}{%endblock%}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/paginacion.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <header class="row" style="width: 100%;">
+        {% block cabecera %}{% endblock %}
+    </header>
+
+    <main>
+        <div class="container-fluid">
+            <div id="container-menu" class="row">
+                <div class="d-flex justify-content-center d-lg-block d-md-none d-sm-none" style="padding-top: 1em;">
+                    <a href="{% url 'index' %}" style="text-decoration: none">
+                        <h1 id="titulo">HARMONÍA<sub>digital</sub></h1>
+                    </a>
+                </div>
+                <div id="navegador" class="col-12">
+                    <div class="row">
+                        <div class="col-12 p-2 d-lg-block d-md-flex justify-content-md-center align-items-md-center">
+                            <a id="inicio" class="categorias" href="{% url 'index' %}"><i class="fa-solid fa-house"></i>
+                                <span class="d-lg-inline d-md-none d-sm-none ">Inicio</span></a>
+                        </div>
+                        <div class="col-12 p-2 d-lg-block d-md-flex justify-content-md-center align-items-md-center">
+                            <a id="explora" class="categorias" href="{% url 'explora' %}"><i
+                                    class="fa-solid fa-magnifying-glass"></i>
+                                <span class="d-lg-inline d-md-none d-sm-none">Explora</span></a>
+                        </div>
+                        <div class="col-12 p-2 d-lg-block d-md-flex justify-content-md-center align-items-md-center">
+                            <a id="comunidades" class="categorias" href="{% url 'comunidades' %}"><i
+                                    class="fa-solid fa-users"></i>
+                                <span class="d-lg-inline d-md-none d-sm-none">Comunidades</span></a>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="col-12 p-2">
+                        <a id="mensajes" class="categorias" href=""><i class="fa-solid fa-envelope"></i>
+                            <span>Mensajes</span></a>
+                    </div>
+                    <div class="col-12 p-2">
+                        <a id="notificaciones" class="categorias" href=""><i
+                                class="fa-solid fa-heart"></i><span>Notificaciones</span>
+                        </a>
+                    </div>
+                    -->
+                </div>
+                <div id="contenedor-postear" class="col-12 mt-5">
+                    <div class="col-12 p-3 d-flex justify-content-center">
+                        <button id="postear" class="btn btn-primary btn_menu_principal" data-bs-toggle="modal"
+                            data-bs-target="#postModal">POSTEAR</button>
+                    </div>
+                </div>
+                <div id="contenedor-lista" class="col-12">
+                    <div class="col-12 p-3 d-flex justify-content-center">
+                        <a href="{% url 'crear_lista' %}" style="text-decoration: none;" class="link_lista"><button
+                                class="btn btn-primary btn_menu_principal" style="font-size: 1.5em !important;">NUEVA LISTA</button></a>
+                    </div>
+                </div>
+                <div id="container-perfil" class="col-12 mt-auto">
+                    <div class="col-12 p-2 d-md-flex justify-content-md-center align-items-md-center d-lg-block">
+                        <div class="nav-item">
+                            <div class="dropdown">
+                                <a id="perfil" class="categorias nav-link dropdown-toggle" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false" style="padding-bottom:0px;"><i
+                                        class="fa-regular fa-user"></i>
+                                    <span class="d-lg-inline d-md-none d-sm-none">{{ contexto.usuario_sesion.apodo }}</span></a>
+                                <ul class="dropdown-menu dropdown-menu-end animate slideIn"
+                                    aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{% url 'perfil' contexto.usuario_sesion.id %}">Perfil</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% if contexto.usuario_sesion.admin %}
+                        <div class="col-12 p-2 d-md-flex justify-content-md-center align-items-md-center d-lg-block">
+                            <a id="ajustes" class="categorias" href="/admin"><i class="fa-solid fa-gear"></i>
+                                <span class="d-lg-inline d-md-none d-sm-none">Panel administrador</span></a>
+                        </div>
+                    {% else %}
+                    {% endif %}
+
+                </div>
+            </div>
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    </main>
+</body>
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="postModalLabel">Comenta una canción!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h6 id="texto-informacion">Primero selecciona abajo la cancion que quiera comentar.</h6>
+                    <input type="text" id="id_cancion_seleccionada" class="d-none" name="id_cancion">
+                    <input type="hidden" class="form-control d-none" id="imagen_cancion_seleccionada"
+                        name="imagen_cancion">
+                    <div class="row cancion-post mb-2">
+
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Deja tu comentario aquí" id="floatingTextarea"
+                            name="comentario"></textarea>
+                        <label id="tituloPost" for="floatingTextarea">¿Qué piensas?</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="seleccionCancion" class="btn btn-secondary" data-bs-target="#modalCanciones"
+                    data-bs-toggle="modal"><i class="fa-solid fa-music"></i> Canciones</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="complete_post">Postear</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCanciones" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Selecciona una cancion</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modalCanciones-body">
+                <div class="container">
+                    <form id="search-musica" action="" method="get">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput"
+                                placeholder="encuentra tu canción" name="canciones">
+                            <label for="floatingInput">Busca tu canción</label>
+                        </div>
+                    </form>
+                    <div class="row container-canciones-post">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-target="#postModal" data-bs-toggle="modal">Comenta la
+                    canción</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/scroll.js' %}"></script>
+<script src="{%static 'js/paginacion.js'%}"></script>
+{% block extra_js %}
+{% endblock %}
+
+</html>

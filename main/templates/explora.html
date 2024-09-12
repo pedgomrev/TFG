@@ -1,0 +1,96 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Explora{%endblock%}
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/explora.css' %}" />
+{% endblock %} {% block cabecera_especifica %}
+<div id="contenedor_cabecera_espc" class="col d-flex justify-content-center p-3">
+    <form id="buscador" class="input-group input-group-lg" method="get" action="{% url 'buscar' %}">
+        <span class="input-group-text" id="inputGroup-sizing-lg"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" placeholder="Realice una búsqueda" name="q" />
+    </form>
+</div>
+{% endblock %} {% block contenido_principal %}
+<div id="content-comunidades" class="row">
+    <div id="cabecera-comunidades" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <span>Comunidades</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+            style="padding: 0em;">
+            <a href="{% url 'ver_mas' 'comunidades' %}">Ver mas</a>
+        </div>
+        </div>
+    </div>
+    <div id="comunidad-list"class="col-12">
+        {% include 'partials/comunidades_list_partial.html' %}
+    </div>
+</div>
+<div id="content-usuario" class="row">
+    <div id="cabecera-usuario" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <span>Usuarios</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+            style="padding: 0em;">
+            <a href="{% url 'ver_mas' 'usuarios' %}">Ver mas</a>
+        </div>
+        </div>
+    </div>
+    <div id="usuario-list" class="col-12">
+        {% include 'partials/usuarios_list_partial.html' %}
+    </div>
+</div>
+<div id="content-genero" class="row">
+    <div id="cabecera-genero" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <span>Tags</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding:0px">
+                <a href="{% url 'ver_mas' 'generos' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="genero-list"class="col-12">
+        {% include 'partials/generos_list_partial.html' %}
+    </div>
+</div>
+<div id="content-artistas" class="row">
+    <div id="cabecera-artistas" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <span>Artistas</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding:0px">
+                <a href="{% url 'ver_mas' 'artistas' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="artista-list"class="col-12">
+        {% include 'partials/artistas_list_partial.html' %}
+    </div>
+</div>
+<div id="content-albums" class="row">
+    <div id="cabecera-albums" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <span>Albums</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding:0px">
+                <a href="{% url 'ver_mas' 'albums' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="album-list"class="col-12">
+        {% include 'partials/albums_list_partial.html' %}
+    </div>
+</div>
+{%endblock%}
+{% block extra_js %}
+<script src="{% static 'js/paginacion.js' %}"></script>
+{% endblock %}

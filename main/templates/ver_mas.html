@@ -1,0 +1,76 @@
+{% extends 'explora.html' %} {% load static %} {% block title %}ver
+todo{%endblock%} {% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/explora.css' %}" />
+<link rel="stylesheet" href="{% static 'css/ver_mas.css' %}" />
+
+{% endblock %} {% block contenido_principal %}
+<div id="volver">
+    <a href="{% url 'explora' %}" class="d-flex align-items-center"><i class="fa-solid fa-chevron-left fa-2xl"></i></a><h2 style="margin-bottom: 0;">Actualmente existen : {{contexto.conteo}} {{contexto.tipo}}</h2>
+</div>
+<div class="row">
+    {% for elemento in contexto.contenido %}
+    {% if contexto.tipo == "comunidades"%}
+    <div class="col-2" style="margin: 1em;">
+        <div class="card">
+            <a href="{% url 'detalles' 'comunidad' elemento.id %}">
+                <img src="{% static elemento.foto %}" class="card-img-top" alt="{{ elemento.nombre }}" />
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ elemento.nombre }}</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% elif contexto.tipo == "generos"%}
+    <div class="col-3">
+        <div class="card">
+            <a href="{% url 'detalles' 'genero' elemento.id %}">
+                <div class="card-body card-genero d-flex align-items-center justify-content-center"
+                    style="background-color: {{elemento.color}}">
+                    <h5 class="card-title" style="color: #e9e8e8a4; font-size: 1.3em; font-weight: bold">
+                        {{elemento.nombre }}
+                    </h5>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% elif contexto.tipo == "albums" %}
+    <div class="col-2" style="margin: 1em;">
+        <div class="card">
+            <a href="{% url 'detalles' 'album' elemento.id %}">
+            <img src="{% static 'albums/' %}{{ elemento.foto }}" class="card-img-top" alt="{{ elemento.nombre }}" />
+            <div class="card-body d-flex align-items-center justify-content-center">
+                <h5 class="card-title" style="color: #333">{{ elemento.nombre }}</h5>
+            </div>
+            </a>
+        </div>
+    </div>
+    {% elif contexto.tipo == "usuarios" %}
+    {% if elemento.id != contexto.usuario_sesion.id %}
+    <div class="col-2" style="margin: 1em;">
+        <div class="card">
+            <a href="{% url 'perfil' elemento.id %}">
+                {% if elemento.foto_perfil %}
+                <img src="{% static elemento.foto_perfil %}" class="card-img-top" alt="{{ elemento.apodo }}" />                       
+                {% else %}
+                <img src="{% static 'fotos_perfil/sin_imagen.png' %}" class="card-img-top" alt="{{ elemento.apodo }}" />                       
+                {% endif %}
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ elemento.apodo }}</h5>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="col-2" style="margin: 1em;">
+        <a href="{% url 'perfil_artista' elemento.id %}">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ elemento.nombre }}</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endif %} {% endfor %}
+</div>
+{%endblock%}{% block extra_js %} {% endblock %}

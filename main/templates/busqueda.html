@@ -1,0 +1,111 @@
+{% extends 'explora.html'%} {% load static %} {%block title%}Busqueda{%endblock%}
+
+{% block contenido_principal %}
+
+{% if contexto.publicaciones %}
+<div id="content-publicacion" class="row">
+    <div id="cabecera-publicacion" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <h3>Publicaciones</h3>
+            </div>
+        </div>
+    </div>
+    <div id="publicacion-list" class="row">
+        {% include 'partials/publicaciones_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.comunidades %}
+<div id="content-comunidades" class="row">
+    <div id="cabecera-comunidades" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Comunidades</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding: 1.5em; padding-bottom: 0px; padding-right: 0px">
+                <a href="{% url 'ver_mas' 'comunidades' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="comunidad-list"class="col-12">
+        {% include 'partials/comunidades_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.usuarios %}
+<div id="content-usuario" class="row">
+    <div id="cabecera-usuario" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Usuarios</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding: 1.5em; padding-bottom: 0px; padding-right: 0px">
+                <a href="{% url 'ver_mas' 'usuarios' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="usuario-list" class="col-12">
+        {% include 'partials/usuarios_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.generos %}
+<div id="content-genero" class="row">
+    <div id="cabecera-genero" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Tags</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding: 1.5em; padding-bottom: 0px; padding-right: 0px">
+                <a href="{% url 'ver_mas' 'generos' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="genero-list"class="col-12">
+        {% include 'partials/generos_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.artistas %}
+<div id="content-artistas" class="row">
+    <div id="cabecera-artistas" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Artistas</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding: 1.5em; padding-bottom: 0px; padding-right: 0px">
+                <a href="{% url 'ver_mas' 'artistas' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="artista-list"class="col-12">
+        {% include 'partials/artistas_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.albums %}
+<div id="content-albums" class="row">
+    <div id="cabecera-albums" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Albums</span>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end"
+                style="padding: 1.5em; padding-bottom: 0px; padding-right: 0px">
+                <a href="{% url 'ver_mas' 'albums' %}">Ver mas</a>
+            </div>
+        </div>
+    </div>
+    <div id="album-list"class="col-12">
+        {% include 'partials/albums_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{%endblock%} {%block js_especifico%}
+<script src="{%static 'js/busqueda.js'%}"></script>
+{%endblock%}

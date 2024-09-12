@@ -1,0 +1,37 @@
+{% load static %}
+<div class="row d-flex justify-content-center">
+    {% if contexto.comunidades_recomendadas.has_previous %}
+    <div class="col-2 d-flex align-items-center">
+        <a
+            href="#" class="page-link" data-page="{{ contexto.comunidades_recomendadas.previous_page_number }}" data-partial="comunidades_recomendadas"><i
+                class="fa-solid fa-chevron-left fa-2xl" style="color: #333;"></i></a>
+    </div>
+    {% endif %}
+    {% for comunidad in contexto.comunidades_recomendadas %}
+        {% if comunidad.id != contexto.usuario_sesion.id %}
+            <div class="col-lg-5 col-md-8 col-sm-8">
+                <div id="contenedor_comunidad" class="row">
+                    <div class="col-3" style="padding: 0;">
+                        <a href="{% url 'detalles_comunidad' comunidad.id %}">
+                            <img id="imagen_comunidad_recomendada"src="{% static comunidad.foto %}" class="card-img-top" alt="{{ comunidad.nombre }}" />
+                        </a>
+                    </div>
+                    <div class="col-4 d-block">
+                        <a href="{% url 'detalles_comunidad' comunidad.id %}">
+                            <h5 id="nombre_comunidad_recomendada">{{ comunidad.nombre }}</h5>
+                        </a>
+                        <h5>{{ comunidad.followers.count }} miembros</h5>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    <div class="col-2 d-flex align-items-center justify-content-end">
+        {% if contexto.comunidades_recomendadas.has_next %}
+            <a
+                href="#" class="page-link" data-page="{{ contexto.comunidades_recomendadas.next_page_number }}" data-partial="comunidades_recomendadas"><i 
+                    class="fa-solid fa-chevron-right fa-2xl" style="color: #333;"></i></a>
+        {% endif %}
+    </div>
+
+</div>

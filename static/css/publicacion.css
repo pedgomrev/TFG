@@ -1,0 +1,53 @@
+#imagen_publicacion{
+    border-radius: 50%;
+    height: 60px;
+    width: auto;
+}
+#imagen_cancion{
+    border-radius: 50%;
+    height: 100px;
+    width: auto;
+}
+.fecha_publicacion{
+    font-size: 12px;
+    font-weight: bold;
+    color: #929292;
+}
+#nombre_publicacion{
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+.publicacion{
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 15px;
+    border-radius: 10px;
+    background-color: #f9f9f9;  
+}
+.contenido_publicacion{
+    font-size:15px;
+    padding-left:100px;
+}
+.titulo_cancion{
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin:0px;
+}
+.cotenido_cancion{
+    padding-left: 100px;
+}
+.youtube,.spotify{
+    font-size: 15px;
+    text-decoration: none;
+    color: #333;
+    font-family: 'Glacial';
+}
+.col-1{
+    width: 6% !important;
+}
+.acciones_publicacion{
+    padding: 10px;
+}

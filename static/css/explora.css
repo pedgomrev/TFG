@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'Varino';
+    src: url('../fonts/VarinoNormal-Regular.woff') format('truetype');
+}
+@font-face {
+    font-family: 'Glacial';
+    src: url('../fonts/GlacialIndifference-Regular.woff') format('truetype');
+}
+#contenedor_cabecera_espc{
+    margin-left:410px;
+}
+@media (max-width: 991.98px) {
+    #contenedor_cabecera_espc {
+      margin-left: 175px;
+    }
+  }
+.secciones{
+    padding-bottom:0px;
+}
+#container-secciones {
+    display: none
+}
+
+#buscador>span {
+    background-color: #333333;
+    color: white;
+    border: 0px !important;
+}
+
+#buscador>input {
+    background-color: #333333;
+    color: white;
+    border: 0px !important;
+}
+
+#buscador>input::placeholder {
+    color: white;
+}
+
+a {
+    font-family: 'Glacial';
+    color: #333;
+    text-decoration: none;
+}
+
+div#content-genero,
+div#content-artistas,
+div#content-albums,
+div#content-comunidades,
+div#content-canciones,
+div#content-usuario,
+div#content-publicacion,
+div#content-listas {
+    padding-right:1em;
+    margin-left: 0em;
+}
+div#cabecera-genero,
+div#cabecera-artistas,
+div#cabecera-albums,
+div#cabecera-comunidades,
+div#cabecera-canciones,
+div#cabecera-usuario,
+div#cabecera-comunidades,
+div#cabecera-publicacion,
+div#cabecera-lista {
+border-bottom: #b8b8b8a4 2px solid;
+margin-bottom : 1.5em;
+}
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.card-genero{
+    height: 200px;
+}
+

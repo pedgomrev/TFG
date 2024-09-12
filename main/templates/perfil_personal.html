@@ -1,0 +1,302 @@
+{% extends 'index.html' %} {% load static %} {% block title %}Perfil{% endblock %}
+
+{% block css_especifico %}
+
+<link rel="stylesheet" href="{% static 'css/perfil_personal.css' %}" />
+<link rel="stylesheet" href="{% static 'css/explora.css' %}" />
+
+{% endblock %}
+{% block cabecera_especifica %}
+<div></div>
+{%endblock%}
+{% block contenido_principal %}
+<div class="cabecera_perfil row">
+    <div class="col-2">
+        {% if contexto.foto_perfil %}
+        <img class="img-fluid imagen_perfil" src="{% static contexto.foto_perfil %}" alt="imagen de perfil">
+        {% else %}
+        <img class="img-fluid imagen_perfil" src="{% static 'fotos_perfil/sin_imagen.png' %}" alt="imagen de perfil">
+        {% endif %}
+    </div>
+    <div class="contenedor_info col-8 d-block">
+        <div class="row d-flex">
+            <div class="col-5" style="width: fit-content !important;">
+                <h1>{{contexto.nombre}}</h1>
+            </div>
+            <div class="col d-flex align-items-center">
+                <form method="POST" action="{% url 'seguir' contexto.id_usuario  %}">
+                    {% csrf_token %}
+                    {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+                    {% if contexto.ya_sigue %}
+                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i> Dejar de
+                        seguir</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-user-plus"></i></button>
+                    {% endif %}
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        <span>
+            <h5>
+                <a href="#" style="text-decoration: none;"><button class="btn" style="padding-left:0px;">
+                        {% if contexto.numero_listas == 0 %}
+                        No has creado listas de reproducción
+                        {% elif contexto.numero_listas == 1 %}
+                        <strong>{{contexto.numero_listas}}</strong> lista de reproducción
+                        {% else %}
+                        <strong>{{contexto.numero_listas}}</strong> listas de reproducción
+                        {% endif %}
+                    </button></a>
+                {% if contexto.seguidores == None %}
+                0 seguidores
+                {% elif contexto.seguidores == 1 %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaSeguidores">
+                        <strong>{{contexto.seguidores}}</strong> seguidor
+                    </button></a>
+                {% else %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaSeguidores">
+                        <strong>{{contexto.seguidores}}</strong> seguidores
+                    </button></a>
+                {% endif %}
+
+                {% if contexto.seguidos == None %}
+                No sigues a nadie todavía
+                {% elif contexto.seguidos == 1 %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaSeguidos">
+                        <strong>{{contexto.seguidos}}</strong> seguido
+                    </button></a>
+
+                {% else %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaSeguidos">
+                        <strong>{{contexto.seguidos}}</strong> seguidos
+                    </button></a>
+
+                {% endif %}
+
+                {% if contexto.artistas_seguidos == 0 %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaArtista">
+                        No sigue a ningún artista
+                    </button></a>
+                {% elif contexto.artistas_seguidos == 1 %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaArtista">
+                        <strong>{{contexto.artistas_seguidos}}</strong> artista seguido
+                    </button></a>
+                {% else %}
+                <a href="#" style="text-decoration: none;"><button class="btn" data-bs-toggle="modal"
+                        data-bs-target="#ListaArtista">
+                        <strong>{{contexto.artistas_seguidos}}</strong> artistas seguidos
+                    </button></a>
+                {% endif %}
+            </h5>
+        </span>
+    </div>
+    {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+    {% else %}
+    <div class="col-2 d-flex justify-content-end align-items-end"><button class="btn btn-secondary"
+            data-bs-toggle="modal" data-bs-target="#EditarPerfil">Editar perfil</button></div>
+</div>
+{% endif %}
+
+<hr>
+<div id="content-comunidades" class="row">
+    <div id="cabecera-comunidades" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <h3>Comunidades a las que pertenece</h3>
+            </div>
+        </div>
+    </div>
+    <div id="comunidad-list" class="col-12">
+        {% include 'partials/comunidades_list_partial.html' %}
+    </div>
+</div>
+<hr>
+<div id="content-publicacion" class="row">
+    <div id="cabecera-publicacion" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <h3>Publicaciones</h3>
+            </div>
+        </div>
+    </div>
+    <div id="publicacion-list" class="row">
+        {% include 'partials/publicaciones_list_partial.html' %}
+    </div>
+</div>
+
+<hr>
+<div id="content-listas" class="row">
+    <div id="cabecera-lista" class="col-12">
+        <div class="row">
+            <div class="col-6 secciones d-flex align-items-end" style="padding: 0px">
+                <h3>Listas</h3>
+            </div>
+        </div>
+    </div>
+    <div id="lista-list" class="col-12">
+        {% include 'partials/lista_list_partial.html' %}
+    </div>
+</div>
+{% comment "AQUI EMPIEZA EL MODEL DE EDITAR PERFIL" %}{% endcomment %}
+<div class="modal fade" id="EditarPerfil" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Edita los campos deseados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'perfil' contexto.id_usuario %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <input type="file" class="form-control" id="input_imagen" name="input_imagen">
+                            {% if contexto.foto_perfil %}
+                            <img src="{% static contexto.foto_perfil %}" alt="Actual Profile Image" class="img-fluid"
+                                id="imagen_modal" style="cursor: pointer;">
+                            {% else %}
+                            <img src="{% static 'fotos_perfil/sin_imagen' %}" alt="Actual Profile Image"
+                                class="img-fluid" id="imagen_modal" style="cursor: pointer;">
+                            {% endif %}
+                        </div>
+                        <div class="col mb-3 d-flex align-items-center">
+                            <input type="text" class="form-control" id="apodo" name="apodo"
+                                value="{{ contexto.nombre }}">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <a href="{% url 'eliminar_usuario' contexto.id_usuario %}"><button type="button" class="btn btn-danger" onclick="confirmacion_eliminar">Eliminar usuario</button></a>
+                <button type="submit" class="btn btn-secondary">Guardar cambios</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ListaSeguidores" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Lista de seguidores</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for seguidor in contexto.lista_seguidores %}
+                <div class="row m-2">
+                    <div class="col-2">
+                        {% if seguidor.foto_perfil %}
+                        <img class="imagen_modal" src="{% static seguidor.foto_perfil %}"
+                            alt="Foto de perfil de {{ seguidor }}">
+                        {% else %}
+                        <img class="imagen_modal" src="{% static 'fotos_perfil/sin_imagen.png' %}" class="card-img-top"
+                            alt="{{ seguidor.apodo }}" />
+                        {% endif %}
+
+                    </div>
+                    <div class="col-8 d-flex align-items-center">
+                        <a href="{% url 'perfil' seguidor.id %}" class="nombre_modal">{{ seguidor }}</a>
+                    </div>
+                    <div class="col-2">
+                        {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+                        {% else %}
+                        <form method="POST" action="{% url 'seguir' contexto.id_usuario  %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn"><i class="fa-solid fa-xmark"
+                                    style="color: whitesmoke;"></i></button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ListaSeguidos" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Lista de seguidos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for seguido in contexto.lista_seguidos %}
+                <div class="row m-2">
+                    <div class="col-2">
+                        {% if seguido.foto_perfil %}
+                        <img class="imagen_modal" src="{% static seguido.foto_perfil %}"
+                            alt="Foto de perfil de {{ seguido }}">
+                        {% else %}
+                        <img class="imagen_modal" src="{% static 'fotos_perfil/sin_imagen.png' %}" class="card-img-top"
+                            alt="{{ seguido.apodo }}" />
+                        {% endif %}
+
+                    </div>
+                    <div class="col-8 d-flex align-items-center">
+                        <a href="{% url 'perfil' seguido.id %}" class="nombre_modal">{{ seguido }}</a>
+
+                    </div>
+                    <div class="col-2">
+                        {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+                        {% else %}
+                        <form method="POST" action="{% url 'seguir' seguido.id  %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn"><i class="fa-solid fa-xmark"
+                                    style="color: whitesmoke;"></i></button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ListaArtista" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Lista de artistas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% for artista in contexto.lista_artistas_seguidos %}
+                <div class="row m-2">
+                    <div class="col d-flex align-items-center">
+                        <a href="{% url 'perfil_artista' artista.id %}" class="nombre_modal">{{ artista }}</a>
+                        {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+                        {% else %}
+                        <form method="POST" action="{% url 'seguir_artista' artista.id  %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn"><i class="fa-solid fa-xmark"
+                                    style="color: whitesmoke;"></i></button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %} {% block extra_js %}
+<script src="{% static 'js/perfil_personal.js' %}"></script>
+{% endblock %}

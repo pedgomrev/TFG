@@ -1,0 +1,68 @@
+#container-secciones{
+    margin-left: 55em;
+}
+@media (max-width: 991.98px) {
+    #container-secciones{
+        margin-left: 25em;
+    }
+  }
+#nombre_publicacion{
+    padding-left: 8px;
+}
+.fecha_publicacion{
+    padding-left:10px;
+}
+#menu_auxiliar{
+    display: block !important;
+    border-right: #b8b8b8a4 2px solid;
+    overflow-y: scroll;
+    font-family: 'Glacial';
+}
+
+#btn_comunidades,#completarComunidad{
+    width: 100%;
+    border-radius: 25px;
+}
+.modal-header{
+    background-color: #333;
+    color: #f8f9fa;
+    border:0px !important;
+}
+.modal-body{
+    background-color: #333333d5;
+    color: #f8f9fa;
+}
+.modal-footer{
+    background-color: #333333d5;
+    color: #f8f9fa;
+    border: 0px !important;
+}
+#input_imagen_comunidad,#input_imagen {
+    display: none;
+}
+#imagen_modal_comunidad{
+    width: 100%;
+    border-radius: 50%;
+}
+#formularioComunidades{
+    display: none;
+    padding:20px;
+}
+#selectorGeneros{
+    font-size: 14px;
+}
+#crearComunidades{
+    border: #b8b8b8a4 2px solid ;
+    border-radius: 15px;
+    padding: 16px;
+}
+.modal-body{
+    height:400px;
+    overflow-y: scroll;
+}
+.dropdown-toggle{
+    padding-left: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    color:#333
+}

@@ -1,0 +1,67 @@
+#cabecera {
+  position: relative !important;
+  margin-top: -2em !important;
+  height: 200px !important; /* Puedes ajustar la altura según sea necesario */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    color: white; /* Asegúrate de que el color del texto sea claro */
+    padding: 20px; /* Ajusta según sea necesario */
+}
+#cabecera>div.nombre_artista{
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    color: white; /* Color del texto */
+}
+#cabecera>div.nombre_artista>h1{
+    font-size: 4em;
+    margin: 0;
+}
+.detalles h5 {
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+    padding: 5px;
+    border-radius: 5px;
+}
+#cabecera>div.detalles{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: start;
+    color: white; /* Color del texto */
+}
+.card-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.card>a{
+    text-decoration: none;
+
+}
+.cabecera{
+    border-bottom: #b8b8b8a4 2px solid;
+    margin: 1rem;
+    margin-right: 2rem;
+}
+.card-genero{
+    height: 200px !important;
+}
+.detalles{
+    display: flex;
+    margin: 0.5rem;
+    padding: 0.5rem;
+}

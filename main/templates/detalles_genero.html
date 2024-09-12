@@ -1,0 +1,58 @@
+{% extends 'explora.html' %} {% load static %} {% block title %}ver {{ contexto.nombre }}{%endblock%} 
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/explora.css' %}" />
+
+{% endblock %} {% block contenido_principal %}
+<div class="row" style="width: 100%;">
+    <h1 class="d-flex justify-content-center">
+        Sección {{ contexto.nombre }}
+    </h1>
+</div>
+{% if contexto.comunidades %}
+<div id="content-comunidades" class="row">
+    <div id="cabecera-comunidades" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Comunidades</span>
+            </div>
+        </div>
+    </div>
+    <div id="comunidad-list" class="col-12">
+        {% include 'partials/comunidades_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+
+{% if contexto.artistas %}
+<div id="content-artistas" class="row">
+    <div id="cabecera-artistas" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Artistas</span>
+            </div>
+        </div>
+    </div>
+    <div id="artista-list"class="col-12">
+        {% include 'partials/artistas_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{% if contexto.albums %}
+<div id="content-albums" class="row">
+    <div id="cabecera-albums" class="col-12">
+        <div class="row">
+            <div class="col-6 categorias d-flex align-items-end" style="padding: 0px">
+                <span>Albums</span>
+            </div>
+        </div>
+    </div>
+    <div id="album-list"class="col-12">
+        {% include 'partials/albums_list_partial.html' %}
+    </div>
+</div>
+{% endif %}
+{%endblock%}
+{% block extra_js %}
+<script src="{% static 'js/paginacion.js' %}"></script>
+
+{% endblock %}

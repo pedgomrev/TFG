@@ -1,0 +1,112 @@
+{% extends 'base.html' %} {% load static %} {% block title %}Base{% endblock %}
+{% block extra_css %}
+{% block css_especifico %}
+{% endblock css_especifico %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'css/publicacion.css' %}" />
+<link rel="stylesheet" href="{% static 'css/comunidades_recomendadas.css' %}" />
+
+{% endblock extra_css %}
+
+{% block cabecera %}
+
+<div class="col d-flex justify-content-center p-3">
+  {% block cabecera_especifica %}
+  <div id="container-secciones">
+    <a href="?vista=para_ti" class="secciones" id="para-ti">Para ti</a>
+    <a href="?vista=siguiendo" class="secciones" id="siguiendo">Siguiendo</a>
+  </div>
+  {% endblock cabecera_especifica %}
+</div>
+{% endblock cabecera %}
+
+{% block content %}
+<div id="menu_auxiliar" class="col-4">
+  {% block menu_auxiliar %}{% endblock menu_auxiliar %}
+</div>
+<div id="contenidoPagina" class="col" style="font-family: 'Glacial';">
+  {% block contenido_principal %}
+  {% if contexto.comunidades_recomendadas %}
+    <h3>Comunidades que podrían interesarte</h3>
+    <div id="comunidades_recomendadas-list">
+      {% include 'partials/comunidades_recomendadas_list_partial.html' %}
+    </div>
+  {% endif %}
+  {% for publicacion in contexto.publicaciones %}
+  <div class="publicacion row">
+    <div class="cabecera-publicacion col-12">
+      <div class="usuario row">
+        <div class="col-2" style="width: fit-content;">
+          {% if publicacion.usuario.foto_perfil %}
+          <img id="imagen_publicacion" src="{% static publicacion.usuario.foto_perfil %}"
+            alt="Foto de perfil de {{ publicacion.usuario }}">
+          {% else %}
+          <img id="imagen_publicacion" src="{% static 'fotos_perfil/sin_imagen.png' %}"
+            alt="Foto de perfil de {{ publicacion.usuario }}">
+          {% endif %}
+        </div>
+        <div class="col">
+          <a id="nombre_publicacion" href="{% url 'perfil' publicacion.usuario.id %}">{{ publicacion.usuario }}</a>
+          <div class="fecha_publicacion">
+            <p>{{ publicacion.fecha }}</p>
+          </div>
+        </div>
+        {% if publicacion.usuario.id == contexto.id_usuario or publicacion.usuario.id == contexto.usuario_sesion.id %}
+        <div class="col d-flex justify-content-end">
+          <form action="{% url 'eliminar_publicacion' publicacion.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn"><i class="fa-solid fa-xmark" style="color:#333"></i></button>
+        </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="contenido_publicacion col-12">
+      <p>{{ publicacion.texto }}</p>
+    </div>
+    {% if publicacion.cancion %}
+    {% if publicacion.cancion.album_set.all %}
+    <div class="cotenido_cancion col-12">
+      <div class="row">
+        <div class="col-1" style="width:  min-content !important;">
+          <img id="imagen_cancion" src="{% static 'albums/' %}{{publicacion.foto}}" alt="Imagen de la canción">
+        </div>
+        <div class="col">
+          <a href="{% url 'detalles' 'album' publicacion.cancion.album_set.first.id   %}"
+            style="text-decoration: none;">
+            <p class="titulo_cancion">{{ publicacion.cancion.nombre }}</p>
+          </a>
+          <a href="{{ publicacion.cancion.link_youtube}}" style="text-decoration: none;">
+            <p class="youtube"><i class="fa-brands fa-youtube" style="color: red;"></i> Escucha en youtube</p>
+          </a>
+          <a href="{{ publicacion.cancion.link_spotify}}" style="text-decoration: none;">
+            <p class="spotify"><i class="fa-brands fa-spotify" style="color: green;"></i> Escucha en spotify</p>
+          </a>
+        </div>
+        <div class="col d-flex justify-content-end">
+          <div class="acciones_publicacion align-content-end">
+            {% if publicacion.ya_dio_like %}
+            <a class="btn_like" href="{% url 'like' publicacion.id %}" style="margin-right: 1em;"><i
+                class="fa-solid fa-heart fa-2xl" style="color: red;"></i></a>
+            {% else %}
+            <a class="btn_like" href="{% url 'like' publicacion.id %}" style="margin-right: 1em;"><i
+                class="fa-solid fa-heart fa-2xl" style="color: #333;"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+    <div class="pie-publicacion col">
+      <div class="comentarios-publicacion">
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% endblock contenido_principal %}
+</div>
+{% endblock content %} {% block extra_js %}
+<script src="{% static 'js/index.js' %}"></script>
+<script src="{% static 'js/paginacion.js' %}"></script>
+{% endblock %}

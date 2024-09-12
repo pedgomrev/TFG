@@ -1,0 +1,118 @@
+@font-face {
+    font-family: 'Varino';
+    src: url('../fonts/VarinoNormal-Regular.woff') format('truetype');
+}
+@font-face {
+    font-family: 'Glacial';
+    src: url('../fonts/GlacialIndifference-Regular.woff') format('truetype');
+}
+#menu_auxiliar{
+    display: none;
+}
+#titulo {
+    font-family: 'Varino';
+    font-size: 1.8em;
+    color: #333;
+    text-align: center;
+}
+sub{
+    font-family: 'Varino';
+    font-size: 0.5em;
+    color: #333;
+}
+
+
+.categorias{
+    font-family: 'Glacial';
+    font-size: 1.5em;
+    color: #333;
+    padding: 1em;
+    text-decoration: none;
+}
+
+#postear{
+    border-radius: 30px;
+    width: 100%;
+    font-size: 1.5em;
+}
+
+.secciones{
+    height:100%
+}
+#cabecera{
+    position: fixed;
+    top: 0;
+    height: 75px;
+    margin-top: 0.5em;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+}
+#container-secciones{
+    border-bottom: #b8b8b8a4 2px solid;
+    width: fit-content !important;
+}
+#para-ti{
+    margin-right:1em;
+}
+.secciones{
+    font-family: 'Glacial';
+    font-size: 1.5em;
+    color: #6b6b6b;
+    text-decoration: none;
+    height: 100%;
+}
+#postear-movil{
+    display: none;
+
+}
+li{
+    font-family: 'Glacial';
+}
+@media (min-width: 200px) {
+    .animate {
+      animation-duration: 0.5s;
+      -webkit-animation-duration: 0.5s;
+      animation-fill-mode: both;
+      -webkit-animation-fill-mode: both;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0rem);
+      opacity: 1;
+    }
+    0% {
+      transform: translateY(1rem);
+      opacity: 0;
+    }
+  }
+  
+  @-webkit-keyframes slideIn {
+    0% {
+      -webkit-transform: transform;
+      -webkit-opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      -webkit-opacity: 1;
+    }
+    0% {
+      -webkit-transform: translateY(1rem);
+      -webkit-opacity: 0;
+    }
+  }
+  
+  .slideIn {
+    -webkit-animation-name: slideIn;
+    animation-name: slideIn;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }

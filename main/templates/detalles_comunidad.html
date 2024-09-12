@@ -1,0 +1,119 @@
+{% extends 'comunidades.html' %} {% load static %} {% block title%}Comunidades-{{contexto.comunidad.nombre}}
+{% endblock title %}
+{% block css_especifico %}
+<link rel="stylesheet" href="{% static 'css/comunidades.css' %}" />
+<link rel="stylesheet" href="{% static 'css/detalles_comunidad.css' %}" />
+{% endblock css_especifico %}
+{% block cabecera_especifica %}
+{% endblock cabecera_especifica %}
+
+{% block contenido_principal %}
+<div id="container-detalles" class="row">
+    <div class="col-lg-2 col-md-6 d-flex justify-content-start">
+        <img src="{% static contexto.comunidad.foto %}" alt="Imagen de la comunidad" class="img-fluid" />
+    </div>
+    <div class="col-lg-10 col-md-6 d-block mt-auto">
+        <div class="row">
+            <div class="col-12">
+                <h1>{{contexto.comunidad.nombre}}</h1>
+            </div>
+            <div class="col-12 d-flex">
+                <p class="m-0 d-flex align-items-center">{{contexto.generos_comunidad.count}} Tags</p>
+                <div class="btn-group">
+                    <button id="consulta_generos" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Consulta las tags
+                    </button>
+                    <ul class="dropdown-menu" name="generos_especificos">
+                        {% for genero in contexto.generos_comunidad %}
+                        <li><a class="dropdown-item" href="#">{{genero.nombre}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 d-flex">
+                <div class="row">
+                    <p class="mb-0 d-flex align-items-center">
+                        {% if contexto.followers == None %}
+                        0 seguidores
+                        {% elif contexto.followers.count == 1 %}
+                        {{contexto.followers.count}} seguidor
+                        {% else %}
+                        {{contexto.followers.count}} seguidores
+                        {% endif %}
+                    </p>
+                    <form action="{% url 'unirse_comunidad' contexto.comunidad.id  %}" method="post">
+                        {% csrf_token %}
+                        {% if contexto.id_usuario != contexto.usuario_sesion.id %}
+                        {% if contexto.ya_sigue %}
+                        <button id="follow" type="submit" class="btn btn-danger"><i class="fa-solid fa-xmark"></i> Dejar
+                            de
+                            seguir</button>
+                        {% else %}
+                        <button id="follow" type="submit" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Unete
+                            a
+                            la comunidad !</button>
+                        {% endif %}
+                        {% endif %}
+                    </form>
+                    {% if contexto.usuario_sesion.id == contexto.comunidad.admin.id %}
+                    <div class="col-7 d-flex justify-content-start align-items-start mt-2"><button
+                            class="btn btn-secondary editar" data-bs-toggle="modal" data-bs-target="#editarComunidad"><i
+                                class="fa-solid fa-pen-to-square"></i> Editar</button></div>
+                                {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="publicacion-list" class="row content-publicacion">
+    {% include 'partials/publicaciones_list_partial.html' %}
+</div>
+
+<div class="modal fade" id="editarComunidad" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editarPerfilLabel">Edita los campos deseados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body-detalles">
+                <form method="POST" enctype="multipart/form-data"
+                    action="{% url 'editar_comunidad' contexto.comunidad.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-3 mb-3">
+                            <input type="file" class="form-control" id="input_imagen_comunidad"
+                                name="input_imagen_comunidad">
+                            {% if contexto.comunidad.foto %}
+                            <img src="{% static contexto.comunidad.foto %}" alt="Actual Profile Image" class="img-fluid"
+                                id="imagen_modal_comunidad" style="cursor: pointer;">
+                            {% else %}
+                            <img src="{% static 'comunidades/sin_imagen_generico' %}" alt="Actual Profile Image"
+                                class="img-fluid" id="imagen_modal_comunidad" style="cursor: pointer;">
+                            {% endif %}
+                        </div>
+                        <div class="col mb-3 d-flex align-items-center">
+                            <input type="text" class="form-control" id="nombre" name="nuevo_nombre"
+                                placeholder="Nombre de la comunidad" value="{{ contexto.comunidad.nombre }}">
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button id="eliminar_comunidad" type="button" class="btn btn-danger"
+                    onclick="return confirm('¿Estás seguro de eliminar esta comunidad?')">Eliminar Comunidad</button>
+                <button type="submit" class="btn btn-secondary">Guardar cambios</button>
+            </div>
+            </form>
+            <form id="form_eliminar_comunidad" action="{% url 'eliminar_comunidad' contexto.comunidad.id %}"
+                method="post">
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+    {% endblock contenido_principal %}
+    {% block js_especifico %}
+    <script src="{% static 'js/detalles_comunidad.js' %}"></script>
+    {% endblock js_especifico %}

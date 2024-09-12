@@ -1,0 +1,25 @@
+<div class="row d-flex justify-content-center">
+    {% if contexto.artistas.has_previous %}
+    <div class="col-1 d-flex align-items-center">
+        <a
+            href="?pageComunidad={{contexto.comunidades.number}}&pageGenero={{ contexto.generos.number }}&pageAlbum={{contexto.albums.number}}" class="page-link" data-page="{{contexto.artistas.previous_page_number}}" data-partial="artista"><i
+                class="fa-solid fa-chevron-left fa-2xl" style="color: #333;"></i></a>
+    </div>
+    {% endif %} {% for artista in contexto.artistas %}
+    <div class="col-2">
+        <a href="{% url 'perfil_artista' artista.id %}">
+            <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-center">
+                    <h5 class="card-title" style="color: #333">{{ artista.nombre }}</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %} {% if contexto.artistas.has_next %}
+    <div class="col-1 d-flex align-items-center justify-content-end">
+        <a
+            href="?pageComunidad={{contexto.comunidades.number}}&pageGenero={{ contexto.generos.number }}&pageAlbum={{contexto.albums.number}}" class="page-link" data-page="{{contexto.artistas.next_page_number}}" data-partial="artista"><i
+                class="fa-solid fa-chevron-right fa-2xl" style="color: #333;"></i></a>
+    </div>
+    {% endif %}
+</div>
